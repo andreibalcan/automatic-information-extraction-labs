@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Top 100 Reviews - <%= label %></title>
+	</head>
+	<body>
+		<h1>Top 100 Reviews - <%= label %></h1>
+
+		<ul style="list-style-type: none">
+			<% reviews.forEach(review => { %>
+			<li>
+				<strong>ID:</strong> <%= review.id || 'N/A' %> <br />
+				<strong>Review:</strong> <%= review.description || 'Sem comentário' %> <br />
+				<strong>Device:</strong> <%= review.device || 'N/A' %> <br />
+				<strong>Browser:</strong> <%= review.browser || 'N/A' %> <br />
+				<strong>Label:</strong> <%= review.label || 'N/A' %>
+			</li>
+			<hr />
+			<% }); %>
+		</ul>
+	</body>
+</html>

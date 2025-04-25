@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Training Set - <%= label %></title>
+	</head>
+	<body>
+		<h1>Training Set - <%= label %></h1>
+
+		<% if (trainingSet.length > 0) { %>
+		<ul>
+			<% trainingSet.forEach(doc => { %>
+			<li><strong>ID:</strong> <%= doc.id %> | <strong>Texto:</strong> <%= doc.review %></li>
+			<% }) %>
+		</ul>
+		<% } else { %>
+		<p>Não há documentos nesta classe.</p>
+		<% } %>
+	</body>
+</html>

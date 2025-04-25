@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Review Detalhada</title>
+	</head>
+	<body>
+		<h1>Review Detalhada</h1>
+		<% if (document) { %>
+		<p><strong>ID:</strong> <%= document.id %></p>
+		<p><strong>Review:</strong> <%= document.description %></p>
+		<p><strong>Device:</strong> <%= document.device %></p>
+		<p><strong>Label:</strong> <%= document.label %></p>
+		<% } else { %>
+		<p>Documento não encontrado.</p>
+		<% } %>
+	</body>
+</html>
