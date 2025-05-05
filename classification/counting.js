@@ -10,12 +10,16 @@ function countBySize(ngramsArray) {
 
 function numberOfOccurrences(tokensArray, targetToken) {
 	return tokensArray.reduce((count, token) => {
-		return JSON.stringify(token) === JSON.stringify(targetToken) ? count + 1 : count;
+		return JSON.stringify(token) === JSON.stringify(targetToken)
+			? count + 1
+			: count;
 	}, 0);
 }
 
 function exists(tokensArray, targetToken) {
-	return tokensArray.some((token) => JSON.stringify(token) === JSON.stringify(targetToken));
+	return tokensArray.some(
+		(token) => JSON.stringify(token) === JSON.stringify(targetToken)
+	);
 }
 
 function tf(tokensArray, targetToken) {
@@ -33,6 +37,7 @@ function idf(N, df) {
 function tfidf(tf, idf) {
 	return tf * idf;
 }
+
 module.exports = {
 	countBySize,
 	numberOfOccurrences,

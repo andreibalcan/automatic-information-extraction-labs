@@ -50,14 +50,89 @@ console.log("Documents imported successfully!");
 // const model = trainModel(["positive", "negative"], [1, 2]);
 // console.log("Trained model:", JSON.stringify(model, null, 2));
 
-const fs = require("fs");
+//const fs = require("fs");
+//const { trainModel } = require("./classification/train.js");
+//console.log("Training model...");
+//const model = trainModel(["positive", "negative"], [1, 2]);
+//fs.writeFileSync("output_model.json", JSON.stringify(model, null, 2));
+//console.log("Trained model saved into output_model.json");
+
+// addUniqueTerms
+const { addUniqueTerms } = require("./classification/bagOfWords.js");
+const vocab = ["best", "time", "worst"];
+const docTerms = ["ag", "best", "wisdom"];
+const updatedVocab = addUniqueTerms(vocab, docTerms);
+console.log(updatedVocab);
+
+// Train model using unigrams and bigrams Lab 4, ex 2 and 3:
 const { trainModel } = require("./classification/train.js");
-console.log("Training model...");
-const model = trainModel(["positive", "negative"], [1, 2]);
-fs.writeFileSync("output_model.json", JSON.stringify(model, null, 2));
-console.log("Trained model saved into output_model.json");
+const { classVocabularies } = trainModel(["positive", "negative"], [1, 2]);
+console.log("Positive class unigrams:", classVocabularies["positive"].unigrams);
+console.log("Positive class bigrams:", classVocabularies["positive"].bigrams);
+console.log("Negative class unigrams:", classVocabularies["negative"].unigrams);
+console.log("Negative class bigrams:", classVocabularies["negative"].bigrams);
+console.log(
+	"Total positive unigrams:",
+	classVocabularies["positive"].unigrams.length
+);
+console.log(
+	"Total positive bigrams:",
+	classVocabularies["positive"].bigrams.length
+);
+console.log(
+	"Total negative unigrams:",
+	classVocabularies["negative"].unigrams.length
+);
+console.log(
+	"Total negative bigrams:",
+	classVocabularies["negative"].bigrams.length
+);
+
+// binaryVector, Lab 4, ex. 4
+const { binaryVector } = require("./classification/bagOfWords.js");
+const bow = ["excelente", "hotel", "bom", "localização"];
+const doc1 = ["hotel", "bom", "serviço"];
+const doc2 = ["excelente", "localização", "quartos"];
+console.log("Binary vector for doc1:", binaryVector(bow, doc1)); // Esperado: [0, 1, 1, 0]
+console.log("Binary vector for doc2:", binaryVector(bow, doc2)); // Esperado: [1, 0, 0, 1]
+
+// numberOfOccurrencesVector, Lab 4, ex. 5
+const { numberOfOccurrencesVector } = require("./classification/bagOfWords.js");
+const bowNr = ["ótimo", "hotel", "localização"];
+const docTermsNr = ["hotel", "ótimo", "hotel", "quartos", "ótimo", "ótimo"];
+console.log(
+	"Occurrences vector:",
+	numberOfOccurrencesVector(bowNr, docTermsNr)
+);
+
+// tfVector Lab 4, ex. 6
+const { tfVector } = require("./classification/bagOfWords.js");
+const bowTf = ["ótimo", "hotel", "localização"];
+const docTermsTf = ["hotel", "ótimo", "hotel", "quartos", "ótimo", "ótimo"];
+console.log("TF vector:", tfVector(bowTf, docTermsTf));
+
+// idfVector Lab 4, ex. 7
+const { idfVector } = require("./classification/bagOfWords");
+const bowIdf = ["ótimo", "hotel", "localização"];
+const docTermsIdf = [
+	["hotel", "ótimo", "quartos"],
+	["localização", "ótimo"],
+	["hotel", "ótimo", "ótimo"],
+];
+console.log("IDF vector:", idfVector(bowIdf, docTermsIdf));
+
+// tfidfVector Lab 4, ex.8
+// const { tfidfVector } = require('./classification/bagOfWords');
+// const tfArray = [
+//     { term: 'ótimo', tf: 0.3 },
+//     { term: 'hotel', tf: 0.5 },
+//     { term: 'localização', tf: 0.2 }
+// ];
+// const idfArray = [1.2, 0.8, 1.5];
+// console.log("TF-IDF vector:", tfidfVector(tfArray, idfArray));
 
 //BROWSER TEST:
+//run in terminal: node ./bin/www
 //http://localhost:3000/corpus/positive
 //http://localhost:3000/corpus/negative
 //http://localhost:3000/corpus/document/10512
