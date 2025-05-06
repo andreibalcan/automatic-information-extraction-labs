@@ -51,6 +51,63 @@ function tfidfVector(tfArray, idfArray) {
 	});
 }
 
+function sumVector(termArray) {
+	if (!termArray || termArray.length === 0) return null;
+
+	const name = termArray[0].name;
+	const idf = termArray[0].idf;
+
+	let totalFreq = 0;
+	let totalTf = 0;
+
+	termArray.forEach((term) => {
+		totalFreq += term.freq;
+		totalTf += term.tf;
+	});
+
+	const tfidf = totalTf * idf;
+
+	return {
+		name,
+		freq: totalFreq,
+		tf: totalTf,
+		idf,
+		tfidf,
+	};
+}
+
+function avgVector(termArray) {
+	if (termArray.length === 0) return null;
+
+	const name = termArray[0].name;
+	const idf = termArray[0].idf;
+	const count = termArray.length;
+
+	let totalFreq = 0;
+	let totalTf = 0;
+
+	termArray.forEach((term) => {
+		totalFreq += term.freq;
+		totalTf += term.tf;
+	});
+
+	const avgFreq = totalFreq / count;
+	const avgTf = totalTf / count;
+	const tfidf = avgTf * idf;
+
+	return {
+		name,
+		freq: avgFreq,
+		tf: avgTf,
+		idf,
+		tfidf,
+	};
+}
+
+function removeOutliersByMinOccurrences(termArray, minOccurrences = 2) {
+	return termArray.filter((term) => term.freq >= minOccurrences);
+}
+
 module.exports = {
 	addUniqueTerms,
 	binaryVector,
@@ -58,4 +115,7 @@ module.exports = {
 	tfVector,
 	idfVector,
 	tfidfVector,
+	sumVector,
+	avgVector,
+	removeOutliersByMinOccurrences,
 };
