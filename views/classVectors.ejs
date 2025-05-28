@@ -1,0 +1,29 @@
+<!-- Lab 6 ex 2 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Vetores de <%= label %></title>
+	</head>
+	<body>
+		<h1>Vetores da classe: <%= label %></h1>
+
+		<table border="1">
+			<tr>
+				<th>Termo</th>
+				<th>TF-IDF</th>
+				<th>N</th>
+			</tr>
+			<% vectors.forEach(term => { %>
+			<tr>
+				<td>
+					<%= Array.isArray(term.name) ? term.name.join(" ") :
+					term.name %>
+				</td>
+				<td><%= term.tfidf.toFixed(6) %></td>
+				<td><%= term.n %></td>
+			</tr>
+			<% }) %>
+		</table>
+	</body>
+</html>

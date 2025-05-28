@@ -9,6 +9,7 @@ var usersRouter = require("./routes/users");
 var corpusRouter = require("./routes/corpus");
 var trainingSetRouter = require("./routes/trainingset");
 var trainRoutes = require("./routes/train");
+var vectorRoutes = require("./routes/classVectors");
 
 var app = express();
 
@@ -26,7 +27,7 @@ app.use("/users", usersRouter);
 app.use("/corpus", corpusRouter);
 app.use("/trainingset", trainingSetRouter);
 app.use("/train", trainRoutes);
-
+app.use("/api/classVectors", vectorRoutes);
 app.use(function (req, res, next) {
 	next(createError(404));
 });

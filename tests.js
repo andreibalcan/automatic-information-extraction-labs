@@ -132,15 +132,47 @@ console.log("Documents imported successfully!");
 // console.log("TF-IDF vector:", tfidfVector(tfArray, idfArray));
 
 // sumVector Lab 5, ex.1
-const { sumVector } = require("./classification/bagOfWords");
-const terms = [
-	{ name: "hotel", freq: 1, tf: 0.2, idf: 0.176, tfidf: 0.0352 },
-	{ name: "hotel", freq: 2, tf: 0.3, idf: 0.176, tfidf: 0.0528 },
-];
-console.log(sumVector(terms));
+// const { sumVector } = require("./classification/bagOfWords");
+// const terms = [
+// 	{ name: "hotel", freq: 1, tf: 0.2, idf: 0.176, tfidf: 0.0352 },
+// 	{ name: "hotel", freq: 2, tf: 0.3, idf: 0.176, tfidf: 0.0528 },
+// ];
+// console.log(sumVector(terms));
 // avgVector Lab 5, ex.2
-const { avgVector } = require("./classification/bagOfWords");
-console.log(avgVector(terms));
+// const { avgVector } = require("./classification/bagOfWords");
+// console.log(avgVector(terms));
+
+
+// Lab 6 ex 1
+// const { getTfIdfVectorsFromClass } = require("./classification/train.js");
+// console.log(JSON.stringify(getTfIdfVectorsFromClass("positive", 1)));
+
+// Lab 6 ex 3 & 4
+const fs = require("fs");
+const path = require("path");
+const { cosineSimilarity } = require("./classification/classifier");
+const { getTfIdfVectorsFromClass } = require("./classification/train");
+const allReviews = JSON.parse(
+	fs.readFileSync(path.join(__dirname, "database/hotelreviews.json"), "utf-8")
+);
+const skipTrain = 100;
+const testPositives = allReviews
+	.filter((r) => r.label === "positive")
+	.slice(skipTrain, skipTrain + 50);
+const testNegatives = allReviews
+	.filter((r) => r.label === "negative")
+	.slice(skipTrain, skipTrain + 50);
+const testSet = [...testPositives, ...testNegatives];
+const vectors = [
+	getTfIdfVectorsFromClass("positive")[0],
+	getTfIdfVectorsFromClass("negative")[0],
+];
+testSet.forEach((review, i) => {
+	const result = cosineSimilarity(review.description, vectors);
+	console.log(
+		`${i + 1}. TRUE: ${review.label} | PREDICTED: ${result.class} | SIM: ${result.similarity.toFixed(4)}`
+	);
+});
 
 //BROWSER TEST:
 //run in terminal: node ./bin/www
@@ -151,3 +183,4 @@ console.log(avgVector(terms));
 //http://localhost:3000/trainingset/positive
 //http://localhost:3000/trainingset/negative
 // Lab 4 and Lab 5: http://localhost:3000/train
+// Lab 6 Ex 2: http://localhost:3000/api/classVectors/positive or http://localhost:3000/api/classVectors/negative

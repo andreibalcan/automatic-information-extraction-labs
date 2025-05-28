@@ -210,4 +210,48 @@ function trainModel(classes = ["positive", "negative"], nArray = [1, 2]) {
 	return { trainingData, classVocabularies };
 }
 
-module.exports = { trainModel, process };
+function getTfIdfVectorsFromClass(className = null, n = null) {
+	const filePath = path.join(__dirname, "../database/train-lab4-5.json");
+
+	if (!fs.existsSync(filePath)) {
+		throw new Error(
+			filePath + " file not found. Run trainModel() and process()."
+		);
+	}
+
+	const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+
+	if (!className) return data;
+
+	const classData = data[className];
+	if (!classData) throw new Error(`Class '${className}' not found.`);
+
+	const vectors = [];
+
+	if (!n || n === 1) {
+		classData.selectedTerms.unigrams.forEach((term) => {
+			const formatterdVectors = {
+				
+			}
+			vectors.push({ name: term.name, tfidf: term.tfidf, n: 1 });
+		});
+	}
+	if (!n || n === 2) {
+		classData.selectedTerms.bigrams.forEach((term) => {
+			vectors.push({ name: term.name, tfidf: term.tfidf, n: 2 });
+		});
+	}
+
+	return [
+		{
+			label: className,
+			vector: vectors,
+		},
+	];
+}
+
+module.exports = {
+	trainModel,
+	process,
+	getTfIdfVectorsFromClass,
+};
