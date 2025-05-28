@@ -142,10 +142,13 @@ console.log("Documents imported successfully!");
 // const { avgVector } = require("./classification/bagOfWords");
 // console.log(avgVector(terms));
 
+// ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
 // Lab 6 ex 1
 // const { getTfIdfVectorsFromClass } = require("./classification/train.js");
 // console.log(JSON.stringify(getTfIdfVectorsFromClass("positive", 1)));
+
+// ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
 // Lab 6 ex 3 & 4
 const fs = require("fs");
@@ -173,6 +176,9 @@ testSet.forEach((review, i) => {
 		`${i + 1}. TRUE: ${review.label} | PREDICTED: ${result.class} | SIM: ${result.similarity.toFixed(4)}`
 	);
 });
+
+// ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
+
 
 //BROWSER TEST:
 //run in terminal: node ./bin/www
