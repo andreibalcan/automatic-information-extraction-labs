@@ -179,7 +179,7 @@ const corpusController = require("./controllers/corpus.js");
 
 // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
-// // Lab 7, Ex.1 c)
+// //  Lab 7, Ex.1 c)
 // // STEPS:
 // // 1. Change database/trainingset.js getPositiveReviewsOriginalSet and getNegativeReviewsOriginalSet value to 10.
 // // 2. Delete what's inside train-lab-5.json
@@ -197,6 +197,52 @@ const corpusController = require("./controllers/corpus.js");
 // // const result = probabilisticClassification("Steps off Times Square, nice rooms, stayed - nights, great for a short visit");
 
 // console.log(result); // { class: 'positive' or 'negative', probability: ... }
+
+// ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
+
+// Lab 8, Ex. 1
+// Must have train-lab-4-5.json filled. Run Lab  Lab 7, Ex.1 c) exercices first to do that.
+const { confusionMatrix, precision, recall, fMeasure } = require('./classification/stats');
+const { probabilisticClassification } = require("./classification/classifier");
+const predicted = probabilisticClassification("Steps off Times Square, nice rooms, stayed - nights, great for a short visit").class;
+const preticted2 = probabilisticClassification("Having stayed at many Hilton properties, I expect a friendly efficient service from what is considered a good brand. This property was a let down. Initially, things went smoothly. Check-in was fine, as a HHonors Gold member I was informed with an apology that they did not have an Executive Floor to upgrade me to, but put me in a - bedroom suite and offered me a complimentary buffet breakfast and the usual wifi vouchers. This is where the good things ended. The room had issues. Initially, the phone in the living room did not work. They sent someone up to fix the phone, and then some --- hours later it just started randomly producing high pitched beeps (which in turn woke me up). In addition, the guest compendium was empty (as in someone had removed the pages). It took - phone calls and - people to come up to my room to actually understand what I was requesting, and deliver a full compendium I also had cause to contact and visit the front desk at various stages later in the evening during my stay. To say the night staff were next to useless would be an over-statement. The night manager basically said nothing to my requests, or as little as possible. They treated me like I was putting them out of their way and disrupting them being lazy. One particular staff member was so bad I wrote a separate complaint to Hilton about them. I also witnessed a lady in obvious distress attempting to get a room late one evening. When they informed her she was not able to get a room without photo ID she became upset and aggravated. She ranted a little bit about 'if I get murdered tonight, it'll be on your conscious' to which the night manager replied That's ok Ma'am, I have no consciou I've never seen such rude staff. Would I stay there again? Definitely not by choice").class;
+
+const data = [
+    { predictedClass: predicted, realClass: "positive" },
+    { predictedClass: preticted2, realClass: "negative" },
+];
+
+// const data = [
+//     { predictedClass: 'Cat', realClass: 'Cat' },
+//     { predictedClass: 'Cat', realClass: 'Cat' },
+//     { predictedClass: 'Cat', realClass: 'Dog' },
+//     { predictedClass: 'Cat', realClass: 'Bird' },
+
+//     { predictedClass: 'Dog', realClass: 'Dog' },
+//     { predictedClass: 'Dog', realClass: 'Dog' },
+//     { predictedClass: 'Dog', realClass: 'Cat' },
+//     { predictedClass: 'Dog', realClass: 'Bird' },
+
+//     { predictedClass: 'Bird', realClass: 'Bird' },
+//     { predictedClass: 'Bird', realClass: 'Cat' }
+// ];
+
+// Ex 1. a)
+const matrix  = confusionMatrix(data);
+console.log('Matriz:', matrix.matrix);
+console.log('Classes:', matrix.classes);
+
+// Ex 1. b)
+const precisions = precision(matrix);
+console.log('Precision:', precisions);
+
+// Ex 1. c)
+const recalls = recall(matrix);
+console.log('Recall:', recalls);
+
+// Ex 1. d)
+const fMeasures = fMeasure(matrix);
+console.log('F1-score:', fMeasures);
 
 // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
