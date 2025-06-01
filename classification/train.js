@@ -203,6 +203,13 @@ function trainModel(classes = ["positive", "negative"], nArray = [1, 2]) {
 		};
 	}
 
+	// Lab 7, Ex. 1 c)
+	const priors = {};
+	for (const classLabel of classes) {
+		priors[classLabel] = calculatePriorProbability(classLabel, classes);
+	}
+	output["priors"] = priors;
+
 	const filePath = path.join(__dirname, "../database/train-lab4-5.json");
 	fs.writeFileSync(filePath, JSON.stringify(output, null, 2), "utf-8");
 	console.log(`Trainig data saved in: ${filePath}`);
@@ -230,9 +237,6 @@ function getTfIdfVectorsFromClass(className = null, n = null) {
 
 	if (!n || n === 1) {
 		classData.selectedTerms.unigrams.forEach((term) => {
-			const formatterdVectors = {
-				
-			}
 			vectors.push({ name: term.name, tfidf: term.tfidf, n: 1 });
 		});
 	}
@@ -250,8 +254,28 @@ function getTfIdfVectorsFromClass(className = null, n = null) {
 	];
 }
 
+// Lab 7, Ex.1 a), b)
+// Not ideal because we could calculate directly on the trainModel.
+// Will leave it here anyways so we follow the lab requirements.
+function calculatePriorProbability(classLabel, allClassLabels = ["positive", "negative"]) {
+	const classCounts = allClassLabels.map(label => ({
+		label,
+		count: getTrainingSet(label).length
+	}));
+
+	const totalDocs = classCounts.reduce((sum, item) => sum + item.count, 0);
+	const selectedClass = classCounts.find(item => item.label === classLabel);
+
+	if (!selectedClass || totalDocs === 0) {
+		throw new Error(`Error calculating P(w) for class: '${classLabel}'.`);
+	}
+
+	return selectedClass.count / totalDocs;
+}
+
 module.exports = {
 	trainModel,
 	process,
 	getTfIdfVectorsFromClass,
+	calculatePriorProbability
 };

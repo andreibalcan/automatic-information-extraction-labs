@@ -10,8 +10,8 @@ function initializeTrainingSet() {
 	positiveTrainingSet = positiveReviews.length >= 100 ? positiveReviews.slice(0, 200) : positiveReviews;
 	negativeTrainingSet = negativeReviews.length >= 100 ? negativeReviews.slice(0, 200) : negativeReviews;
 
-	console.log("Positivos:", positiveTrainingSet.length);
-	console.log("Negativos:", negativeTrainingSet.length);
+	console.log("Positive:", positiveTrainingSet.length);
+	console.log("Negative:", negativeTrainingSet.length);
 }
 
 function getTrainingSet(label) {

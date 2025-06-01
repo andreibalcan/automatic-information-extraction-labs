@@ -1,5 +1,7 @@
 const { preprocessText } = require("./processing");
 const { tfVector, tfidfVector } = require("./bagOfWords");
+const fs = require("fs");
+const path = require("path");
 
 function calculateCosineSimilarity(vecA, vecB) {
 	const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
@@ -67,7 +69,71 @@ function cosineSimilarity(text, trainedVectors) {
 	};
 }
 
+// Lab 7, Ex. 2
+function probabilisticClassification(text) {
+	const filePath = path.join(__dirname, "../database/train-lab4-5.json");
+
+	if (!fs.existsSync(filePath)) {
+		throw new Error("file " + filePath + " not found.");
+	}
+
+	const model = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+
+	const processed = preprocessText(text, [1, 2]);
+
+	const tokens = {
+		1: processed.tokens.find((g) => g.n === 1)?.tokens || [],
+		2: processed.tokens.find((g) => g.n === 2)?.tokens || [],
+	};
+
+	let bestClass = null;
+	let bestValue = 0;
+
+	for (const classLabel of Object.keys(model).filter(
+		(key) => key !== "priors"
+	)) {
+		const prior = model.priors[classLabel];
+
+		const tfidfMap = {};
+		let totalTfidf = 0;
+		let vocabSize = 0;
+
+		["unigrams", "bigrams"].forEach((type) => {
+			model[classLabel].allTerms[type].forEach((term) => {
+				tfidfMap[term.name] = term.tfidf;
+				totalTfidf += term.tfidf;
+				vocabSize += 1;
+			});
+		});
+
+		let prob = 0;
+
+		[1, 2].forEach((n) => {
+			tokens[n].forEach((token) => {
+				const tfidf = tfidfMap[token] || 0;
+				// Applying Laplace Correction to avoid 0 multiplication
+				const correctionProb =
+					(tfidf + 1) / (totalTfidf + Math.abs(vocabSize));
+				prob += correctionProb;
+			});
+		});
+
+		const result = prob + prior;
+
+		if (result > bestValue) {
+			bestValue = result;
+			bestClass = classLabel;
+		}
+	}
+
+	return {
+		class: bestClass,
+		probability: bestValue,
+	};
+}
+
 module.exports = {
 	calculateCosineSimilarity,
 	cosineSimilarity,
+	probabilisticClassification,
 };

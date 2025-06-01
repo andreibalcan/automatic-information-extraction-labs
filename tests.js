@@ -1,8 +1,8 @@
 const corpusDatabase = require("./database/corpus.js");
 const corpusController = require("./controllers/corpus.js");
 
-corpusController.importDocuments(10);
-console.log("Documents imported successfully!");
+// corpusController.importDocuments(10);
+// console.log("Documents imported successfully!");
 
 // console.log("Test 1: Loading all reviews...");
 // const allReviews = corpusDatabase.getCorpus('happy');
@@ -151,34 +151,54 @@ console.log("Documents imported successfully!");
 // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
 // Lab 6 ex 3 & 4
-const fs = require("fs");
-const path = require("path");
-const { cosineSimilarity } = require("./classification/classifier");
-const { getTfIdfVectorsFromClass } = require("./classification/train");
-const allReviews = JSON.parse(
-	fs.readFileSync(path.join(__dirname, "database/hotelreviews.json"), "utf-8")
-);
-const skipTrain = 100;
-const testPositives = allReviews
-	.filter((r) => r.label === "positive")
-	.slice(skipTrain, skipTrain + 50);
-const testNegatives = allReviews
-	.filter((r) => r.label === "negative")
-	.slice(skipTrain, skipTrain + 50);
-const testSet = [...testPositives, ...testNegatives];
-const vectors = [
-	getTfIdfVectorsFromClass("positive")[0],
-	getTfIdfVectorsFromClass("negative")[0],
-];
-testSet.forEach((review, i) => {
-	const result = cosineSimilarity(review.description, vectors);
-	console.log(
-		`${i + 1}. TRUE: ${review.label} | PREDICTED: ${result.class} | SIM: ${result.similarity.toFixed(4)}`
-	);
-});
+// const fs = require("fs");
+// const path = require("path");
+// const { cosineSimilarity } = require("./classification/classifier");
+// const { getTfIdfVectorsFromClass } = require("./classification/train");
+// const allReviews = JSON.parse(
+// 	fs.readFileSync(path.join(__dirname, "database/hotelreviews.json"), "utf-8")
+// );
+// const skipTrain = 100;
+// const testPositives = allReviews
+// 	.filter((r) => r.label === "positive")
+// 	.slice(skipTrain, skipTrain + 50);
+// const testNegatives = allReviews
+// 	.filter((r) => r.label === "negative")
+// 	.slice(skipTrain, skipTrain + 50);
+// const testSet = [...testPositives, ...testNegatives];
+// const vectors = [
+// 	getTfIdfVectorsFromClass("positive")[0],
+// 	getTfIdfVectorsFromClass("negative")[0],
+// ];
+// testSet.forEach((review, i) => {
+// 	const result = cosineSimilarity(review.description, vectors);
+// 	console.log(
+// 		`${i + 1}. TRUE: ${review.label} | PREDICTED: ${result.class} | SIM: ${result.similarity.toFixed(4)}`
+// 	);
+// });
 
 // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
+// // Lab 7, Ex.1 c)
+// // STEPS:
+// // 1. Change database/trainingset.js getPositiveReviewsOriginalSet and getNegativeReviewsOriginalSet value to 10.
+// // 2. Delete what's inside train-lab-5.json
+// // 3. Delede what's inside corpus.json (leave only [] empty array, if not an error occurs);
+// const { trainModel } = require("./classification/train.js");
+// console.log("Training model...");
+// trainModel(["positive", "negative"], [1, 2]);
+// console.log("Training finished!");
+
+// ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
+
+// // Lab 7, Ex.2
+// const { probabilisticClassification } = require("./classification/classifier");
+// const result = probabilisticClassification("Having stayed at many Hilton properties, I expect a friendly efficient service from what is considered a good brand. This property was a let down. Initially, things went smoothly. Check-in was fine, as a HHonors Gold member I was informed with an apology that they did not have an Executive Floor to upgrade me to, but put me in a - bedroom suite and offered me a complimentary buffet breakfast and the usual wifi vouchers. This is where the good things ended. The room had issues. Initially, the phone in the living room did not work. They sent someone up to fix the phone, and then some --- hours later it just started randomly producing high pitched beeps (which in turn woke me up). In addition, the guest compendium was empty (as in someone had removed the pages). It took - phone calls and - people to come up to my room to actually understand what I was requesting, and deliver a full compendium I also had cause to contact and visit the front desk at various stages later in the evening during my stay. To say the night staff were next to useless would be an over-statement. The night manager basically said nothing to my requests, or as little as possible. They treated me like I was putting them out of their way and disrupting them being lazy. One particular staff member was so bad I wrote a separate complaint to Hilton about them. I also witnessed a lady in obvious distress attempting to get a room late one evening. When they informed her she was not able to get a room without photo ID she became upset and aggravated. She ranted a little bit about 'if I get murdered tonight, it'll be on your conscious' to which the night manager replied That's ok Ma'am, I have no consciou I've never seen such rude staff. Would I stay there again? Definitely not by choice");
+// // const result = probabilisticClassification("Steps off Times Square, nice rooms, stayed - nights, great for a short visit");
+
+// console.log(result); // { class: 'positive' or 'negative', probability: ... }
+
+// ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
 //BROWSER TEST:
 //run in terminal: node ./bin/www
