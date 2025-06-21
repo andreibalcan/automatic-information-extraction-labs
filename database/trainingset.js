@@ -4,11 +4,11 @@ let positiveTrainingSet = [];
 let negativeTrainingSet = [];
 
 function initializeTrainingSet() {
-	const positiveReviews = corpusDatabase.getPositiveReviewsOriginalSet(200);
-	const negativeReviews = corpusDatabase.getNegativeReviewsOriginalSet(200);
+	const positiveReviews = corpusDatabase.getPositiveReviewsOriginalSet(100);
+	const negativeReviews = corpusDatabase.getNegativeReviewsOriginalSet(100);
 
-	positiveTrainingSet = positiveReviews.length >= 100 ? positiveReviews.slice(0, 200) : positiveReviews;
-	negativeTrainingSet = negativeReviews.length >= 100 ? negativeReviews.slice(0, 200) : negativeReviews;
+	positiveTrainingSet = positiveReviews.length >= 100 ? positiveReviews.slice(0, 100) : positiveReviews;
+	negativeTrainingSet = negativeReviews.length >= 100 ? negativeReviews.slice(0, 100) : negativeReviews;
 
 	console.log("Positive:", positiveTrainingSet.length);
 	console.log("Negative:", negativeTrainingSet.length);

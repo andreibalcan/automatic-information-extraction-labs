@@ -14,10 +14,9 @@
 			<% reviews.forEach(review => { %>
 			<li>
 				<strong>ID:</strong> <%= review.id || 'N/A' %> <br />
-				<strong>Review:</strong> <%= review.description || 'Sem comentário' %> <br />
-				<strong>Device:</strong> <%= review.device || 'N/A' %> <br />
-				<strong>Browser:</strong> <%= review.browser || 'N/A' %> <br />
+				<strong>Description:</strong> <%= review.description || 'Sem comentário' %> <br />
 				<strong>Label:</strong> <%= review.label || 'N/A' %>
+				<strong>Score:</strong> <%= review.score || 'N/A' %>
 			</li>
 			<hr />
 			<% }); %>

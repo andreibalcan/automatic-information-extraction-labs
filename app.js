@@ -41,4 +41,32 @@ app.use(function (err, req, res, next) {
 	res.render("error");
 });
 
+// Filter the airline_reviews.csv if the filtered airline_reviews.json is empty.
+const corpusDatabase = require("./database/corpus");
+const fs = require("fs");
+const filteredDataSetPath = path.join(__dirname, "database/airlines_reviews.json");
+
+if (!fs.existsSync(filteredDataSetPath)) {
+    console.log("File doesn't exist. Generating airlines_reviews.json dataset...");
+    corpusDatabase.filterDataSet();
+} else {
+    try {
+        const fileContent = fs.readFileSync(filteredDataSetPath, 'utf8');
+        const jsonData = JSON.parse(fileContent);
+        
+        if (Array.isArray(jsonData) && jsonData.length === 0) {
+            console.log("File is empty array. Generating airlines_reviews.json dataset...");
+            corpusDatabase.filterDataSet();
+        } else if (Object.keys(jsonData).length === 0) {
+            console.log("File is empty object. Generating airlines_reviews.json dataset...");
+            corpusDatabase.filterDataSet();
+        } else {
+            console.log("Dataset already exists. Skipping generation.");
+        }
+    } catch (error) {
+        console.log("Error reading file or invalid JSON. Generating airlines_reviews.json dataset...");
+        corpusDatabase.filterDataSet();
+    }
+}
+
 module.exports = app;

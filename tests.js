@@ -5,7 +5,7 @@ const corpusController = require("./controllers/corpus.js");
 // console.log("Documents imported successfully!");
 
 // console.log("Test 1: Loading all reviews...");
-// const allReviews = corpusDatabase.getCorpus('happy');
+// const allReviews = corpusDatabase.getCorpus('positive');
 // console.log(allReviews.slice(0, 100));
 
 // console.log("\nTest 2: Get positive reviews...");
@@ -18,8 +18,8 @@ const corpusController = require("./controllers/corpus.js");
 
 // console.log("\nTest 4: Insert reviews into corpus...");
 // corpusDatabase.insertCorpus([
-//   { id_hotel_reviews: 1, review: "Good!", score: 5, label: "happy" },
-//   { id_hotel_reviews: 2, review: "Terrible", score: 1, label: "not happy" }
+//   { id_hotel_reviews: 1, review: "Good!", score: 5, label: "positive" },
+//   { id_hotel_reviews: 2, review: "Terrible", score: 1, label: "negative" }
 // ]);
 // console.log("Data successfully written into corpus.json");
 
@@ -156,7 +156,7 @@ const corpusController = require("./controllers/corpus.js");
 // const { cosineSimilarity } = require("./classification/classifier");
 // const { getTfIdfVectorsFromClass } = require("./classification/train");
 // const allReviews = JSON.parse(
-// 	fs.readFileSync(path.join(__dirname, "database/hotelreviews.json"), "utf-8")
+// 	fs.readFileSync(path.join(__dirname, "database/airlines_reviews.json"), "utf-8")
 // );
 // const skipTrain = 100;
 // const testPositives = allReviews
@@ -201,7 +201,7 @@ const corpusController = require("./controllers/corpus.js");
 // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
 // Lab 8, Ex. 1
-// Must have train-lab-4-5.json filled. Run Lab  Lab 7, Ex.1 c) exercices first to do that.
+// Must have train-results.json filled. Run Lab  Lab 7, Ex.1 c) exercices first to do that.
 const { confusionMatrix, precision, recall, fMeasure } = require('./classification/stats');
 const { probabilisticClassification } = require("./classification/classifier");
 const predicted = probabilisticClassification("Steps off Times Square, nice rooms, stayed - nights, great for a short visit").class;
@@ -243,6 +243,12 @@ console.log('Recall:', recalls);
 // Ex 1. d)
 const fMeasures = fMeasure(matrix);
 console.log('F1-score:', fMeasures);
+
+// ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
+
+console.log("positive", probabilisticClassification(String("Exceptional service with this airline. Caring, warm, personable.  I mentioned to the crew that I don't drink alcohol. Not only did they prepare a glass of non-alcoholic champagne for me, they brought and showed me the bottle just to reassure me that the alcohol content was zero percent. Then after the main meal, they came round to tell each of us, \"The service isn't over!\"  And many of the ground staff I interacted with were just as impressive.")))
+console.log("negative", probabilisticClassification(String("London to Sydney via Hong Kong. What a terrible waste of money it was spending just under 1925 GBP to travel Premium Economy with Cathay Pacific. I will never fly with them again. I booked and paid in May 2017 for a Premium Economy flight to Sydney.  I was flying out to Australia on 26th September 2017 and returning 25th April 2018. At 73 years of age and travelling alone, I thought that I would treat myself and incur the extra expense of being able to book my seats in advance. However when my date for return to the UK came around I was shocked to find when using online check-in the day before travel that my previously booked window seat on the 9.5 hour leg from Sydney to Hong Kong had been allocated to somebody else. I had been bumped to an aisle seat at the back of the cabin and just a couple of feet from the economy class cabin. I queried this at Sydney airport on my departure day. They were unwilling to do anything about it. I asked the lady in my previously booked seat, how she got it. She had booked 9 months after me and was not related to the person sitting next to her, so it was obviously a Cathay malfunction. At no stage did I receive any notification of the seat change. I complained to Cathay Pacific and eventually got the promise of 100USD compensation. Still waiting. That is under 4% of the ticket price. This was a terrible experience and I will not be risking a repeat of it. My advice is to avoid Cathay Pacific.")))
+console.log("negative", probabilisticClassification(String("The served food was terrible and I didn't have any leg room"))); // Example of a wrong perdiction. Should be added to training set and try again next time.
 
 // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 

@@ -71,7 +71,7 @@ function cosineSimilarity(text, trainedVectors) {
 
 // Lab 7, Ex. 2
 function probabilisticClassification(text) {
-	const filePath = path.join(__dirname, "../database/train-lab4-5.json");
+	const filePath = path.join(__dirname, "../database/train_results.json");
 
 	if (!fs.existsSync(filePath)) {
 		throw new Error("file " + filePath + " not found.");

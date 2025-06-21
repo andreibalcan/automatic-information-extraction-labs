@@ -210,7 +210,7 @@ function trainModel(classes = ["positive", "negative"], nArray = [1, 2]) {
 	}
 	output["priors"] = priors;
 
-	const filePath = path.join(__dirname, "../database/train-lab4-5.json");
+	const filePath = path.join(__dirname, "../database/train_results.json");
 	fs.writeFileSync(filePath, JSON.stringify(output, null, 2), "utf-8");
 	console.log(`Trainig data saved in: ${filePath}`);
 
@@ -218,7 +218,7 @@ function trainModel(classes = ["positive", "negative"], nArray = [1, 2]) {
 }
 
 function getTfIdfVectorsFromClass(className = null, n = null) {
-	const filePath = path.join(__dirname, "../database/train-lab4-5.json");
+	const filePath = path.join(__dirname, "../database/train_results.json");
 
 	if (!fs.existsSync(filePath)) {
 		throw new Error(

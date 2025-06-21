@@ -1,28 +1,83 @@
 const fs = require("fs");
+const csv = require("csv-parser");
 const path = require("path");
 
-function loadHotelReviews() {
-	const filePath = path.join(__dirname, "hotelreviews.json");
+function filterDataSet() {
+	let csvFilePath = path.join(__dirname, "airlines_reviews.csv");
+	let outputJsonPath = path.join(__dirname, "airlines_reviews.json");
+
+	let results = [];
+	let rowNumber = 1;
+
+	fs.createReadStream(csvFilePath)
+		.pipe(csv())
+		.on("data", (row) => {
+			rowNumber++;
+			const airline = row["Airline"]?.trim();
+			const verified = row["Verified"]?.toLowerCase() === "true";
+			const rating = parseFloat(row["Overall Rating"]);
+			const review = row["Reviews"]?.trim();
+
+			if (airline === "Qatar Airways" && verified) {
+				let label = null;
+				if (rating > 7) {
+					label = "positive";
+				} else if (rating <= 3) {
+					label = "negative";
+				}
+
+				if (label && review) {
+					results.push({
+						id: rowNumber,
+						description: review,
+						label: label,
+						score: rating,
+					});
+				}
+			}
+		})
+		.on("end", () => {
+			fs.writeFileSync(
+				outputJsonPath,
+				JSON.stringify(results, null, 2),
+				"utf8"
+			);
+			console.log(`Filtered JSON saved to ${outputJsonPath}`);
+		});
+}
+
+function loadReviews() {
+	const filePath = path.join(__dirname, "airlines_reviews.json");
+	const fileData = fs.readFileSync(filePath, "utf-8");
+	return JSON.parse(fileData);
+}
+
+function loadCorpusReviews() {
+	const filePath = path.join(__dirname, "corpus.json");
 	const fileData = fs.readFileSync(filePath, "utf-8");
 	return JSON.parse(fileData);
 }
 
 function getPositiveReviewsOriginalSet(x = 100) {
-	const hotelReviews = loadHotelReviews();
-	const positiveReviews = hotelReviews.filter((review) => review.label === "positive");
+	const reviews = loadReviews();
+	const positiveReviews = reviews
+		.filter((review) => review.label === "positive")
+		.sort((a, b) => b.score - a.score);
 
 	return positiveReviews.slice(0, x);
 }
 
 function getNegativeReviewsOriginalSet(x = 100) {
-	const hotelReviews = loadHotelReviews();
-	const positiveReviews = hotelReviews.filter((review) => review.label === "negative");
+	const reviews = loadReviews();
+	const negativeReviews = reviews
+		.filter((review) => review.label === "negative")
+		.sort((a, b) => a.score - b.score);
 
-	return positiveReviews.slice(0, x);
+	return negativeReviews.slice(0, x);
 }
 
 function getCorpus(label) {
-	const reviews = loadHotelReviews();
+	const reviews = loadCorpusReviews();
 
 	return reviews.filter((review) => review.label === label);
 }
@@ -37,13 +92,12 @@ function insertCorpus(data = []) {
 	}
 
 	data.forEach((item) => {
-		const { id, description, browser, device, label } = item;
+		const { id, description, label, score } = item;
 		reviews.push({
 			id: id,
 			description: description,
-			browser: browser,
-			device: device,
 			label: label,
+			score: score,
 		});
 	});
 
@@ -51,11 +105,12 @@ function insertCorpus(data = []) {
 }
 
 function getDocument(id) {
-	const reviews = loadHotelReviews();
+	const reviews = loadCorpusReviews();
 	return reviews.find((review) => review.id === parseInt(id));
 }
 
 module.exports = {
+	filterDataSet,
 	getPositiveReviewsOriginalSet,
 	getNegativeReviewsOriginalSet,
 	getCorpus,
