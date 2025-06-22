@@ -1,1 +1,82 @@
-[]
+[
+  {
+    "text": "Great food, but the staff lost my luggage and I had to wait for two days to get it back.",
+    "predictedClass": "positive",
+    "realClass": "negative"
+  },
+  {
+    "text": "Honestly, I wasn’t expecting much, but the airline surprised me with great service and on-time arrival. I might fly with them again\"",
+    "predictedClass": "positive",
+    "realClass": "positive"
+  },
+  {
+    "text": "I almost missed my connecting flight due to a delay, but the staff went out of their way to help me. Very impressed!",
+    "predictedClass": "negative",
+    "realClass": "positive"
+  },
+  {
+    "text": "Despite the turbulence and some noise, the crew handled everything professionally, making me feel safe throughout",
+    "predictedClass": "positive",
+    "realClass": "positive"
+  },
+  {
+    "text": "Oh sure, they ‘upgraded’ me to a seat right next to the restroom. What a luxury!",
+    "predictedClass": "negative",
+    "realClass": "negative"
+  },
+  {
+    "text": "Great announcements throughout the flight, if you ignore the fact that the plane was late by 3 hours.",
+    "predictedClass": "negative",
+    "realClass": "negative"
+  },
+  {
+    "text": "I appreciated the free snacks, even though the overall service left a lot to be desired.",
+    "predictedClass": "positive",
+    "realClass": "negative"
+  },
+  {
+    "text": "The crew smiled a lot, which was the only good part of the trip.",
+    "predictedClass": "positive",
+    "realClass": "negative"
+  },
+  {
+    "text": "The airplane looked clean on the outside, but the cabin was dirty and uncomfortable.",
+    "predictedClass": "positive",
+    "realClass": "negative"
+  },
+  {
+    "text": "I was annoyed at first by the delay, but the captain’s explanations were honest and reassuring.",
+    "predictedClass": "negative",
+    "realClass": "positive"
+  },
+  {
+    "text": "The plane itself was very modern and the in-flight entertainment system was excellent. Unfortunately, the experience was ruined by constant delays and a very bumpy ride that made it difficult to relax. Despite the amenities, I wouldn’t say this was a pleasant trip.",
+    "predictedClass": "positive",
+    "realClass": "negative"
+  },
+  {
+    "text": "The pilot gave frequent updates and reassured us throughout the flight, which I appreciated. But the turbulence was so severe that many passengers, including myself, were visibly shaken and uneasy. Despite the pilot’s efforts, the flight was quite stressful overall.",
+    "predictedClass": "negative",
+    "realClass": "negative"
+  },
+  {
+    "text": "The staff smiled and greeted us warmly at boarding, setting a nice tone initially. However, as the flight progressed, their service became inconsistent and slow, which was disappointing given the good start.",
+    "predictedClass": "negative",
+    "realClass": "negative"
+  },
+  {
+    "text": "I initially booked two separate flights for this airline in November. The first was a LHR-SIN-LHR flight and another was a SIN-MNL-SIN flight. To cut the story short, I requested to rebook my LHR-SIN flight two weeks ahead of my scheduled flight due to a family bereavement and I needed to be in the Philippines. Despite my personal situation, I received an amazing support from the Customer Service team, who happily reorganised my flight, connected my 2 flight bookings so I can get to Manila on time, and without rebooking fees. At the London airport, I was sent-off warmly by the ground staff who has empathised with me as I check-in and ensure I was boarded comfortably in the plane. These gestures of goodwill and support made me grateful for Singapore Airlines. Even though I am no longer based in Singapore, I will always find a way to fly with them. Thank you. These words are never enough for the outstanding, grateful and sincere help you have provided me.",
+    "predictedClass": "negative",
+    "realClass": "positive"
+  },
+  {
+    "text": "I flew on SQ217 from Singapore to Melbourne on the 4th of January. My flight was terrible. To begin with my seat was broken and couldn’t be moved and the entertainment device was broken as well. My flight of nearly 8 hours was spent looking blankly into space, seated in the same position. I had severe back pain upon arrival as a result for the next couple of days. When I informed the crew, first the steward said I will be compensated with a voucher and asked me to choose what I like from the duty free catalog. When I did choose a product that would be useful for me, I was told by the air hostess that my voucher is only for $75 Singapore dollars and the rest will have to be paid by me! I informed them I don’t need their $75 voucher and that I will make a formal complaint about the plane’s defects. After my return I did make the complaint and they got back to me saying that another travel voucher of AU$200 will be issued to be used in my next flight with Singapore airlines. But the worst part was they lied and said I was offered another seat but I had declined saying I wanted to be seated next to my husband. This was an outrageous lie. At no point did they offer me another seat. This is very concerning. I would urge everyone flying in SQ next time, to either video any exchange with the crew in situations like this or get it in writing. After discussing with my husband, I informed them that I would not be flying with them in the near future so they can give me a cash voucher. But they replied saying they can only give me a voucher to be used for my future bookings through Singapore airlines. I refused to accept it because I will not fly with them in the future. Even a budget airline would have been more comfortable than this flight. But the greatest worry is their dishonesty.",
+    "predictedClass": "negative",
+    "realClass": "negative"
+  },
+  {
+    "text": "Checkin and immigration entry at Changi Airport a breeze, all completed and straight to Business Lounge within 5-10 minutes, Lovely and comfortable lounge at T3 with a vast array of food and beverages. Flight left slightly late due to operational issues but pre flight champagne was served and we were then on our way. I elected to have a meal upon departure ( as this was a 1am flight, but you can elect to have served 2 hours prior to arrival) and was served a very tasty steak and vegetables with some lovely french red wine. Staff then prepared lie down bed for a sleep which was bliss after a long day. Staff very courteous and professional as always , a reasonwhy I will continue to use SQ for all travel given the brilliant experience with this great airline, everytime.",
+    "predictedClass": "negative",
+    "realClass": "positive"
+  }
+]

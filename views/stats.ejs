@@ -3,22 +3,40 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>Estatísticas</title>
+		<style>
+			table {
+				border-collapse: collapse;
+				text-align: center;
+			}
+			th,
+			td {
+				border: 1px solid black;
+				padding: 5px 10px;
+			}
+			th {
+				background-color: #eee;
+			}
+			td:first-child {
+				text-align: left;
+				font-weight: bold;
+			}
+			td[rowspan] {
+				background-color: #eee;
+			}
+		</style>
 	</head>
 	<body>
 		<h1>Estatísticas</h1>
 		<% if (message) { %>
 		<p><%= message %></p>
 		<% } else { %>
+
 		<h2>Matriz de Confusão</h2>
-		<table
-			border="1"
-			cellpadding="5"
-			style="border-collapse: collapse; text-align: center"
-		>
+		<table>
 			<thead>
 				<tr>
-					<th></th>
-					<th colspan="<%= matrix.classes.length %>">Real</th>
+					<th rowspan="2"></th>
+					<th colspan="<%= matrix.classes.length + 1 %>">Real</th>
 				</tr>
 				<tr>
 					<th></th>
@@ -29,23 +47,32 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td rowspan="<%= matrix.classes.length %>">Previsto</td>
-					<% matrix.classes.forEach((predClass, rowIndex) => { %> <%
-					if (rowIndex > 0) { %>
-				</tr>
-				<tr>
-					<% } %>
-					<td><strong><%= predClass %></strong></td>
-					<% matrix.matrix[rowIndex].forEach(count => { %>
+					<td
+						rowspan="<%= matrix.classes.length %>"
+						style="vertical-align: middle; font-weight: bold"
+					>
+						Previsto
+					</td>
+					<td><strong><%= matrix.classes[0] %></strong></td>
+					<% matrix.matrix[0].forEach(count => { %>
 					<td><%= count %></td>
-					<% }); %> <% }); %>
+					<% }); %>
 				</tr>
+				<% for(let i = 1; i < matrix.classes.length; i++) { %>
+				<tr>
+					<td><strong><%= matrix.classes[i] %></strong></td>
+					<% matrix.matrix[i].forEach(count => { %>
+					<td><%= count %></td>
+					<% }); %>
+				</tr>
+				<% } %>
 			</tbody>
 		</table>
+
 		<br />
+
 		<h2>Métricas</h2>
 		<% matrix.classes.forEach(cls => { %>
-
 		<h3>Classe <strong><%= cls %></strong>:</h3>
 		<p>
 			<strong>Precisão:</strong> <%= (precisions[cls] * 100).toFixed(2)
@@ -57,5 +84,12 @@
 		</p>
 		<br />
 		<% }); %> <% } %>
+
+		<br />
+
+		<div id="links">
+			<a href="/train">2. Treinar Modelo</a><br />
+			<a href="/classifyDocument">3. Classificar Novo Documento</a><br />
+		</div>
 	</body>
 </html>
