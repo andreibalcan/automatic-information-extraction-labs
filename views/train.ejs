@@ -1,102 +1,117 @@
 <!DOCTYPE html>
 <html lang="pt">
-	<head>
-		<meta charset="UTF-8" />
-		<title>Treinar Modelo</title>
-		<style>
-			#spinner {
-				border: 4px solid #f3f3f3;
-				border-top: 4px solid #333;
-				border-radius: 50%;
-				width: 24px;
-				height: 24px;
-				animation: spin 1s linear infinite;
-				display: none;
-				vertical-align: middle;
-				margin-right: 10px;
-			}
-			@keyframes spin {
-				0% {
-					transform: rotate(0deg);
-				}
-				100% {
-					transform: rotate(360deg);
-				}
-			}
-			#links {
-				margin-top: 20px;
-				display: none;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>Treinar Modelo</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Treinar Modelo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/output.css" />
+  </head>
+  <body
+    class="bg-white text-foreground min-h-screen flex items-center justify-center px-4 py-12"
+  >
+    <div
+      class="w-full max-w-md bg-white border border-neutral-200 rounded-2xl shadow-md p-8 space-y-6"
+    >
+      <h1
+        class="text-2xl font-semibold tracking-tight text-center text-neutral-950"
+      >
+        Treinar Modelo
+      </h1>
 
-		<button id="startButton">Iniciar Treino</button>
+      <div class="text-center text-neutral-500 text-sm font-normal">
+        Esta operação irá treinar o modelo com base nos documentos importados.
+      </div>
 
-		<p id="status" style="display: none">
-			<span id="spinner"></span>
-			<span id="status-text"></span>
-			<span id="timer">0.0s</span>
-		</p>
+      <div class="text-center">
+        <button
+          id="startButton"
+          class="bg-neutral-900 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Iniciar Treino
+        </button>
+      </div>
 
-		<div id="links">
-			<a href="/classifyDocument">3. Classificar Novo Documento</a><br />
-			<a href="/stats">4. Estatísticas</a>
-		</div>
+      <p
+        id="status"
+        class="flex items-center justify-center gap-2 text-sm text-neutral-700"
+        style="display: none"
+      >
+        <span
+          id="spinner"
+          class="border-4 border-neutral-200 border-t-neutral-600 rounded-full w-5 h-5 animate-spin"
+        ></span>
+        <span id="status-text" class="text-center"></span>
+        <span id="timer" class="ml-2 text-neutral-500"></span>
+      </p>
 
-		<pre id="json" style="display: none"></pre>
+      <nav
+        id="links"
+        class="grid gap-4 pt-4 border-t border-neutral-200 text-center"
+        style="display: none"
+      >
+        <a
+          href="/classifyDocument"
+          class="inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium rounded-md border text-neutral-950"
+        >
+          3. Classificar Novo Documento
+        </a>
+        <a
+          href="/stats"
+          class="inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium rounded-md border text-neutral-950"
+        >
+          4. Estatísticas
+        </a>
+      </nav>
+    </div>
 
-		<script>
-			const startButton = document.getElementById("startButton");
-			const spinner = document.getElementById("spinner");
-			const statusText = document.getElementById("status-text");
-			const timerEl = document.getElementById("timer");
-			const status = document.getElementById("status");
-			const jsonEl = document.getElementById("json");
-			const links = document.getElementById("links");
+    <script>
+      const startButton = document.getElementById("startButton");
+      const spinner = document.getElementById("spinner");
+      const statusText = document.getElementById("status-text");
+      const timerEl = document.getElementById("timer");
+      const status = document.getElementById("status");
+      const links = document.getElementById("links");
 
-			let timerInterval;
+      let timerInterval;
 
-			startButton.addEventListener("click", () => {
-				// Reset UI
-				startButton.disabled = true;
-				status.style.display = "inline";
-				spinner.style.display = "inline-block";
-				statusText.textContent = "A treinar modelo...";
-				timerEl.textContent = "0.0s";
-				links.style.display = "none";
-				jsonEl.style.display = "none";
+      startButton.addEventListener("click", () => {
+        // Reset UI
+        startButton.disabled = true;
+        status.style.display = "flex";
+        spinner.style.display = "inline-block";
+        statusText.textContent = "A treinar modelo...";
+        timerEl.textContent = "0.0s";
+        links.style.display = "none";
 
-				let startTime = performance.now();
-				timerInterval = setInterval(() => {
-					let now = performance.now();
-					let seconds = ((now - startTime) / 1000).toFixed(1);
-					timerEl.textContent = `${seconds}s`;
-				}, 100);
+        let startTime = performance.now();
+        timerInterval = setInterval(() => {
+          let now = performance.now();
+          let seconds = ((now - startTime) / 1000).toFixed(1);
+          timerEl.textContent = `${seconds}s`;
+        }, 100);
 
-				fetch("/train/run")
-					.then((res) => {
-						if (!res.ok) throw new Error("Erro ao treinar modelo.");
-						return res.json();
-					})
-					.then(() => {
-						clearInterval(timerInterval);
-						spinner.style.display = "none";
-						statusText.textContent =
-							"Treino do modelo concluído, verifique o ficheiro train_results.json.";
-						timerEl.textContent = "";
-						links.style.display = "block";
-						startButton.disabled = false;
-					})
-					.catch((err) => {
-						clearInterval(timerInterval);
-						spinner.style.display = "none";
-						statusText.textContent = "Erro ao treinar modelo.";
-						console.error(err);
-						startButton.disabled = false;
-					});
-			});
-		</script>
-	</body>
+        fetch("/train/run")
+          .then((res) => {
+            if (!res.ok) throw new Error("Erro ao treinar modelo.");
+            return res.json();
+          })
+          .then(() => {
+            clearInterval(timerInterval);
+            spinner.style.display = "none";
+            statusText.textContent =
+              "Treino do modelo concluído, verifique os resultados no ficheiro train_results.json.";
+            timerEl.textContent = "";
+            links.style.display = "grid";
+            startButton.disabled = false;
+          })
+          .catch((err) => {
+            clearInterval(timerInterval);
+            spinner.style.display = "none";
+            statusText.textContent = "Erro ao treinar modelo.";
+            console.error(err);
+            startButton.disabled = false;
+          });
+      });
+    </script>
+  </body>
 </html>

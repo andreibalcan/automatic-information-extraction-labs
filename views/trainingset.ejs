@@ -1,23 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0" />
-		<title>Training Set - <%= label %></title>
-	</head>
-	<body>
-		<h1>Training Set - <%= label %></h1>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Training Set - <%= label %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/output.css" />
+  </head>
+  <body class="bg-white text-foreground min-h-screen px-4 py-12">
+    <div class="max-w-4xl mx-auto space-y-8">
+      <h1
+        class="text-2xl font-semibold tracking-tight text-center text-neutral-950"
+      >
+        Training Set - <%= label %>
+      </h1>
 
-		<% if (trainingSet.length > 0) { %>
-		<ul>
-			<% trainingSet.forEach(doc => { %>
-			<li><strong>ID:</strong> <%= doc.id %> | <strong>Texto:</strong> <%= doc.review %></li>
-			<% }) %>
-		</ul>
-		<% } else { %>
-		<p>Não há documentos nesta classe.</p>
-		<% } %>
-	</body>
+      <% if (trainingSet.length > 0) { %>
+      <ul class="space-y-4">
+        <% trainingSet.forEach(doc => { %>
+        <li class="border border-neutral-200 rounded-lg p-4 shadow-sm bg-white">
+          <p class="text-sm text-neutral-700 mb-1">
+            <strong class="text-neutral-800">ID:</strong> <%= doc.id %>
+          </p>
+          <p class="text-sm text-neutral-700">
+            <strong class="text-neutral-800">Texto:</strong> <%= doc.description %>
+          </p>
+        </li>
+        <% }) %>
+      </ul>
+      <% } else { %>
+      <p class="text-center text-sm text-neutral-500">
+        Não há documentos nesta classe.
+      </p>
+      <% } %>
+    </div>
+  </body>
 </html>

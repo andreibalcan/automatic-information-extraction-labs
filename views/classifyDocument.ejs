@@ -1,116 +1,129 @@
 <!DOCTYPE html>
 <html lang="pt">
-	<head>
-		<meta charset="UTF-8" />
-		<title>Classificar Documento</title>
-		<style>
-			.positive {
-				color: green;
-				font-weight: bold;
-			}
-			.negative {
-				color: red;
-				font-weight: bold;
-			}
-			.feedback-buttons {
-				margin-top: 10px;
-			}
-			.feedback-buttons button {
-				padding: 8px 16px;
-				font-size: 14px;
-				margin-right: 10px;
-				border: none;
-				cursor: pointer;
-				border-radius: 4px;
-			}
-			.feedback-buttons .correct {
-				background-color: #4caf50;
-				color: white;
-			}
-			.feedback-buttons .wrong {
-				background-color: #f44336;
-				color: white;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>Classificar Documento</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Classificar Documento</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/output.css" />
+  </head>
+  <body
+    class="bg-white text-foreground min-h-screen flex items-center justify-center px-4 py-12"
+  >
+    <div
+      class="w-full max-w-xl bg-white border border-neutral-200 rounded-2xl shadow-md p-8 space-y-6"
+    >
+      <h1
+        class="text-2xl font-semibold tracking-tight text-center text-neutral-950"
+      >
+        Classificar Documento
+      </h1>
 
-		<form action="/classifyDocument" method="post">
-			<textarea
-				name="text"
-				rows="6"
-				cols="60"
-				placeholder="Insira uma review para ser classificada..."
-				required
-			>
+      <form action="/classifyDocument" method="post" class="space-y-4">
+        <textarea
+          name="text"
+          rows="6"
+          class="w-full border border-neutral-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 resize-y"
+          placeholder="Insira uma review para ser classificada..."
+          required
+        >
 <%= inputText || '' %></textarea
-			><br />
-			<button type="submit">Classificar</button>
-		</form>
+        >
 
-		<% if (cosineResult) { %>
-		<h2>Resultado pela Similaridade Cosseno:</h2>
-		<p>
-			<strong>Classe Prevista:</strong>
-			<span
-				class="<%= cosineResult.class === 'positive' ? 'positive' : 'negative' %>"
-			>
-				<%= cosineResult.class %>
-			</span>
-		</p>
-		<p>
-			<strong>Similaridade:</strong> <%=
-			cosineResult.similarity.toFixed(4) %>
-		</p>
-		<% } %> <% if (probabilisticResult) { %>
-		<h2>Resultado pela Classificação Probabilística:</h2>
-		<p>
-			<strong>Classe Prevista:</strong>
-			<span
-				class="<%= probabilisticResult.class === 'positive' ? 'positive' : 'negative' %>"
-			>
-				<%= probabilisticResult.class %>
-			</span>
-		</p>
-		<p>
-			<strong>Probabilidade</strong> <%=
-			probabilisticResult.probability.toFixed(4) %>
-		</p>
-		<% } %>
+        <button
+          type="submit"
+          class="w-full bg-neutral-900 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-neutral-700 transition-colors"
+        >
+          Classificar
+        </button>
+      </form>
 
-		<!-- Botões de feedback -->
-		<div class="feedback-buttons">
-			<% if (cosineResult) { %>
-			<form
-				action="/classifyDocument/feedback"
-				method="post"
-				style="display: inline"
-			>
-				<input type="hidden" name="text" value="<%= inputText %>" />
-				<input
-					type="hidden"
-					name="predictedClass"
-					value="<%= probabilisticResult.class %>"
-				/>
-				<label
-					>Classe real:
-					<select name="realClass" required>
-						<option value="">--Selecionar--</option>
-						<option value="positive">Positive</option>
-						<option value="negative">Negative</option>
-					</select>
-				</label>
-				<button type="submit" class="correct">Submeter</button>
-			</form>
-			<% } %>
-		</div>
+      <% if (cosineResult) { %>
+      <div class="space-y-1">
+        <h2 class="text-lg font-medium text-neutral-800">
+          Resultado pela Similaridade Cosseno:
+        </h2>
+        <p>
+          <strong>Classe Prevista:</strong>
+          <span
+            class="<%= cosineResult.class === 'positive' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold' %>"
+          >
+            <%= cosineResult.class %>
+          </span>
+        </p>
+        <p>
+          <strong>Similaridade:</strong> <%= cosineResult.similarity.toFixed(4)
+          %>
+        </p>
+      </div>
+      <% } %> <% if (probabilisticResult) { %>
+      <div class="space-y-1">
+        <h2 class="text-lg font-medium text-neutral-800">
+          Resultado pela Classificação Probabilística:
+        </h2>
+        <p>
+          <strong>Classe Prevista:</strong>
+          <span
+            class="<%= probabilisticResult.class === 'positive' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold' %>"
+          >
+            <%= probabilisticResult.class %>
+          </span>
+        </p>
+        <p>
+          <strong>Probabilidade:</strong> <%=
+          probabilisticResult.probability.toFixed(4) %>
+        </p>
+      </div>
+      <% } %> <% if (cosineResult) { %>
+      <form
+        action="/classifyDocument/feedback"
+        method="post"
+        class="space-y-2 pt-4 border-t border-neutral-200"
+      >
+        <input type="hidden" name="text" value="<%= inputText %>" />
+        <input
+          type="hidden"
+          name="predictedClass"
+          value="<%= probabilisticResult.class %>"
+        />
 
-		<br />
+        <label class="block text-sm text-neutral-700 font-medium">
+          Classe real:
+          <select
+            name="realClass"
+            required
+            class="mt-1 w-full border border-neutral-300 rounded-md p-2 text-sm"
+          >
+            <option value="">--Selecionar--</option>
+            <option value="positive">Positive</option>
+            <option value="negative">Negative</option>
+          </select>
+        </label>
 
-		<!-- Links -->
-		<a href="/train">2. Treinar Modelo</a>
-		<br />
-		<a href="/stats">4. Estatísticas</a>
-	</body>
+        <button
+          type="submit"
+          class="bg-neutral-100 text-neutral-950 text-sm font-medium py-2 px-4 rounded-md hover:bg-neutral-50 transition-colors w-full"
+        >
+          Submeter
+        </button>
+      </form>
+      <% } %>
+
+      <div
+        class="pt-6 flex flex-col border-t border-neutral-200 space-y-2 text-center"
+      >
+        <a
+          href="/train"
+          class="inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium rounded-md border text-neutral-950 hover:bg-neutral-100"
+        >
+          2. Treinar Modelo
+        </a>
+        <a
+          href="/stats"
+          class="inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium rounded-md border text-neutral-950 hover:bg-neutral-100"
+        >
+          4. Estatísticas
+        </a>
+      </div>
+    </div>
+  </body>
 </html>

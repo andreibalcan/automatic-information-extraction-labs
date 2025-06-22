@@ -7,10 +7,10 @@ router.get("/:label", (req, res) => {
 	const trainingSet = trainingSetController.getTrainingSet(label);
 
 	if (!trainingSet || trainingSet.length === 0) {
-		return res.status(404).send("No document found for this class.");
+		return res.render("trainingset", { label, trainingSet: [] });
 	}
 
-	res.json(trainingSet);
+	res.render("trainingset", { label, trainingSet });
 });
 
 module.exports = router;
