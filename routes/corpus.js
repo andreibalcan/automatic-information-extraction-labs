@@ -3,7 +3,16 @@ var router = express.Router();
 var corpusController = require("../controllers/corpus");
 
 router.get("/importDocuments", function (req, res) {
-	res.json(corpusController.importDocuments());
+	res.render("importDocuments");
+});
+
+router.get("/importDocuments/run", function (req, res) {
+	try {
+		const result = corpusController.importDocuments();
+		res.json({ success: true });
+	} catch (err) {
+		res.status(500).json({ success: false, error: err.message });
+	}
 });
 
 router.get("/:label", function (req, res) {

@@ -10,6 +10,8 @@ var corpusRouter = require("./routes/corpus");
 var trainingSetRouter = require("./routes/trainingset");
 var trainRoutes = require("./routes/train");
 var vectorRoutes = require("./routes/classVectors");
+var classifyRoutes = require("./routes/classifyDocument");
+var statsRoutes = require("./routes/stats");
 
 var app = express();
 
@@ -27,7 +29,10 @@ app.use("/users", usersRouter);
 app.use("/corpus", corpusRouter);
 app.use("/trainingset", trainingSetRouter);
 app.use("/train", trainRoutes);
+app.use("/train/run", trainRoutes);
 app.use("/api/classVectors", vectorRoutes);
+app.use("/classifyDocument", classifyRoutes);
+app.use("/stats", statsRoutes);
 app.use(function (req, res, next) {
 	next(createError(404));
 });

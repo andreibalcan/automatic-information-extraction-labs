@@ -3,14 +3,15 @@ const router = express.Router();
 const { trainModel } = require("../classification/train");
 
 router.get("/", (req, res) => {
-	const classes = ["positive", "negative"];
-	const ngrams = [1, 2];
+	res.render("train", { result: null });
+});
 
+router.get("/run", (req, res) => {
 	try {
-		const trainingData = trainModel(classes, ngrams);
-		res.json(trainingData);
-	} catch (error) {
-		res.status(500).json({ error: "Error while training model", details: error.message });
+		const result = trainModel(["positive", "negative"], [1, 2]);
+		res.json(result);
+	} catch (err) {
+		res.status(500).json({ error: err.message });
 	}
 });
 

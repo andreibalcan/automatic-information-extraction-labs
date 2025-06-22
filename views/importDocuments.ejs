@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+	<meta charset="UTF-8" />
+	<title>Importar Documentos</title>
+	<style>
+		#spinner {
+			border: 4px solid #f3f3f3;
+			border-top: 4px solid #333;
+			border-radius: 50%;
+			width: 24px;
+			height: 24px;
+			animation: spin 1s linear infinite;
+			display: none;
+			vertical-align: middle;
+			margin-right: 10px;
+		}
+		@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+		#links {
+			margin-top: 20px;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<h1>Importar Documentos</h1>
+
+	<button id="startButton">Iniciar Importação</button>
+
+	<p id="status" style="display: none;">
+		<span id="spinner"></span>
+		<span id="status-text"></span>
+		<span id="timer">0.0s</span>
+	</p>
+
+	<div id="links">
+		<a href="/train">2. Treinar Modelo</a><br />
+		<a href="/classifyDocument">3. Classificar Novo Documento</a><br />
+		<a href="/stats">4. Estatísticas</a>
+	</div>
+
+	<script>
+		const startButton = document.getElementById("startButton");
+		const spinner = document.getElementById("spinner");
+		const statusText = document.getElementById("status-text");
+		const timerEl = document.getElementById("timer");
+		const status = document.getElementById("status");
+		const links = document.getElementById("links");
+
+		let timerInterval;
+
+		startButton.addEventListener("click", () => {
+			// Reset UI
+			startButton.disabled = true;
+			status.style.display = "inline";
+			spinner.style.display = "inline-block";
+			statusText.textContent = "A importar documentos...";
+			timerEl.textContent = "0.0s";
+			links.style.display = "none";
+
+			let startTime = performance.now();
+			timerInterval = setInterval(() => {
+				let now = performance.now();
+				let seconds = ((now - startTime) / 1000).toFixed(1);
+				timerEl.textContent = `${seconds}s`;
+			}, 100);
+
+			fetch("/corpus/importDocuments/run")
+				.then(res => {
+					if (!res.ok) throw new Error("Erro ao importar documentos.");
+					return res.json();
+				})
+				.then(() => {
+					clearInterval(timerInterval);
+					spinner.style.display = "none";
+					statusText.textContent = "Documentos importados com sucesso.";
+					timerEl.textContent = "";
+					links.style.display = "block";
+					startButton.disabled = false;
+				})
+				.catch(err => {
+					clearInterval(timerInterval);
+					spinner.style.display = "none";
+					statusText.textContent = "Erro ao importar documentos.";
+					console.error(err);
+					startButton.disabled = false;
+				});
+		});
+	</script>
+</body>
+</html>
