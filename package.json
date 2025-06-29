@@ -1,20 +1,30 @@
 {
-	"name": "lab1",
-	"version": "0.0.0",
-	"private": true,
-	"scripts": {
-		"start": "nodemon ./bin/www"
-	},
-	"dependencies": {
-		"@drorgl/n-gram": "^1.1.2",
-		"cookie-parser": "~1.4.4",
-		"csv-parser": "^3.2.0",
-		"debug": "~2.6.9",
-		"ejs": "~2.6.1",
-		"express": "~4.16.1",
-		"http-errors": "~1.6.3",
-		"morgan": "~1.9.1",
-		"porter-stemmer": "^0.9.1",
-		"stopword": "^3.1.4"
-	}
+  "name": "lab1",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "@drorgl/n-gram": "^1.1.2",
+    "cookie-parser": "~1.4.4",
+    "csv-parser": "^3.2.0",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "porter-stemmer": "^0.9.1",
+    "stopword": "^3.1.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.3"
+  },
+  "description": "This project is a training pipeline for a **Sentiment Analysis** classifier that processes, analyzes, and prepares text data from reviews. It involves multiple stages of **text preprocessing**, **tokenization**, and **feature extraction**, ultimately generating structured data for machine learning models.",
+  "main": "app.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

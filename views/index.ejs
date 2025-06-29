@@ -1,21 +1,54 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Airline Reviews - EAI</title>
-		<link
-			rel="stylesheet"
-			href="/stylesheets/style.css" />
-	</head>
-	<body>
-		<h1>Airline Reviews - EAI</h1>
-			<!-- Links -->
-			<a href="/corpus/importDocuments">1. Importar Corpus</a>
-			<br />
-			<a href="/train">2. Treinar Modelo</a>
-			<br />
-			<a href="/classifyDocument">3. Classificar Novo Documento</a>
-			<br />
-			<a href="/stats">4. Estatísticas</a>
-		</ul>
-	</body>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Airline Reviews - EAI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/output.css" />
+  </head>
+  <body
+    class="bg-white text-foreground min-h-screen flex items-center justify-center px-4 py-12"
+  >
+    <div
+      class="w-full max-w-md bg-white border border-neutral-200 rounded-2xl shadow-md p-8 space-y-6"
+    >
+      <h1
+        class="text-2xl font-semibold tracking-tight text-center text-neutral-950"
+      >
+        Airline Reviews - EAI
+      </h1>
+
+      <div class="text-center text-neutral-500 text-sm font-normal">
+        Este projeto consiste em aplicar os conhecimentos adquiridos nas aulas
+        teóricas e práticas, de modo a simular um processo de Text Mining</div
+      >
+
+      <nav class="grid gap-4">
+        <a
+          href="/corpus/importDocuments"
+          class="text-neutral-950 inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium rounded-md border"
+        >
+          1. Importar Corpus
+        </a>
+        <a
+          href="/train"
+          class="text-neutral-950 inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium rounded-md border"
+        >
+          2. Treinar Modelo
+        </a>
+        <a
+          href="/classifyDocument"
+          class="text-neutral-950 inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium rounded-md border"
+        >
+          3. Classificar Novo Documento
+        </a>
+        <a
+          href="/stats"
+          class="text-neutral-950 inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium rounded-md border"
+        >
+          4. Estatísticas
+        </a>
+      </nav>
+    </div>
+  </body>
 </html>

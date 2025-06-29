@@ -1,21 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0" />
-		<title>Review Detalhada</title>
-	</head>
-	<body>
-		<h1>Review Detalhada</h1>
-		<% if (document) { %>
-		<p><strong>ID:</strong> <%= document.id %></p>
-		<p><strong>Review:</strong> <%= document.description %></p>
-		<p><strong>Label:</strong> <%= document.label %></p>
-		<p><strong>Score:</strong> <%= document.score %></p>
-		<% } else { %>
-		<p>Documento não encontrado.</p>
-		<% } %>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Review Detalhada</title>
+    <link rel="stylesheet" href="/css/output.css" />
+  </head>
+  <body
+    class="bg-white text-foreground min-h-screen flex items-center justify-center px-4 py-12"
+  >
+    <div
+      class="w-full max-w-xl bg-white border border-neutral-200 rounded-2xl shadow-md p-8 space-y-6"
+    >
+      <h1
+        class="text-2xl font-semibold tracking-tight text-center text-neutral-950"
+      >
+        Review Detalhada
+      </h1>
+
+      <% if (document) { %>
+      <div class="space-y-2 text-sm text-neutral-800">
+        <p><strong class="text-neutral-900">ID:</strong> <%= document.id %></p>
+        <p>
+          <strong class="text-neutral-900">Review:</strong> <%=
+          document.description %>
+        </p>
+        <p>
+          <strong class="text-neutral-900">Label:</strong>
+          <span
+            class="<%= document.label === 'positive' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold' %>"
+          >
+            <%= document.label %>
+          </span>
+        </p>
+        <p>
+          <strong class="text-neutral-900">Score:</strong> <%= document.score %>
+        </p>
+      </div>
+      <% } else { %>
+      <p class="text-sm text-red-500">Documento não encontrado.</p>
+      <% } %>
+    </div>
+  </body>
 </html>

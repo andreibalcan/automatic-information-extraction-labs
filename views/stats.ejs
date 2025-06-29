@@ -1,95 +1,132 @@
 <!DOCTYPE html>
 <html lang="pt">
-	<head>
-		<meta charset="UTF-8" />
-		<title>Estatísticas</title>
-		<style>
-			table {
-				border-collapse: collapse;
-				text-align: center;
-			}
-			th,
-			td {
-				border: 1px solid black;
-				padding: 5px 10px;
-			}
-			th {
-				background-color: #eee;
-			}
-			td:first-child {
-				text-align: left;
-				font-weight: bold;
-			}
-			td[rowspan] {
-				background-color: #eee;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>Estatísticas</h1>
-		<% if (message) { %>
-		<p><%= message %></p>
-		<% } else { %>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Estatísticas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/output.css" />
+  </head>
+  <body
+    class="bg-white text-foreground min-h-screen flex items-center justify-center px-4 py-12"
+  >
+    <div
+      class="w-full max-w-3xl bg-white border border-neutral-200 rounded-2xl shadow-md p-8 space-y-8"
+    >
+      <h1
+        class="text-2xl font-semibold tracking-tight text-center text-neutral-950"
+      >
+        Estatísticas
+      </h1>
 
-		<h2>Matriz de Confusão</h2>
-		<table>
-			<thead>
-				<tr>
-					<th rowspan="2"></th>
-					<th colspan="<%= matrix.classes.length + 1 %>">Real</th>
-				</tr>
-				<tr>
-					<th></th>
-					<% matrix.classes.forEach(cls => { %>
-					<th><%= cls %></th>
-					<% }); %>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td
-						rowspan="<%= matrix.classes.length %>"
-						style="vertical-align: middle; font-weight: bold"
-					>
-						Previsto
-					</td>
-					<td><strong><%= matrix.classes[0] %></strong></td>
-					<% matrix.matrix[0].forEach(count => { %>
-					<td><%= count %></td>
-					<% }); %>
-				</tr>
-				<% for(let i = 1; i < matrix.classes.length; i++) { %>
-				<tr>
-					<td><strong><%= matrix.classes[i] %></strong></td>
-					<% matrix.matrix[i].forEach(count => { %>
-					<td><%= count %></td>
-					<% }); %>
-				</tr>
-				<% } %>
-			</tbody>
-		</table>
+      <% if (message) { %>
+      <p class="text-center text-sm text-red-500"><%= message %></p>
+      <% } else { %>
 
-		<br />
+      <div class="space-y-4">
+        <h2 class="text-lg font-medium text-neutral-800">Matriz de Confusão</h2>
 
-		<h2>Métricas</h2>
-		<% matrix.classes.forEach(cls => { %>
-		<h3>Classe <strong><%= cls %></strong>:</h3>
-		<p>
-			<strong>Precisão:</strong> <%= (precisions[cls] * 100).toFixed(2)
-			%>%
-		</p>
-		<p><strong>Recall:</strong> <%= (recalls[cls] * 100).toFixed(2) %>%</p>
-		<p>
-			<strong>F1-Score:</strong> <%= (f1scores[cls] * 100).toFixed(2) %>%
-		</p>
-		<br />
-		<% }); %> <% } %>
+        <div class="overflow-x-auto">
+          <table
+            class="min-w-full text-sm text-center border border-neutral-300 rounded"
+          >
+            <thead>
+              <tr class="bg-neutral-100 text-neutral-700">
+                <th
+                  rowspan="2"
+                  class="border border-neutral-300 px-4 py-2"
+                ></th>
+                <th
+                  colspan="<%= matrix.classes.length + 1 %>"
+                  class="border border-neutral-300 px-4 py-2"
+                >
+                  Real
+                </th>
+              </tr>
+              <tr class="bg-neutral-100 text-neutral-700">
+                <th class="border border-neutral-300 px-4 py-2"></th>
+                <% matrix.classes.forEach(cls => { %>
+                <th class="border border-neutral-300 px-4 py-2"><%= cls %></th>
+                <% }); %>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td
+                  rowspan="<%= matrix.classes.length %>"
+                  class="border border-neutral-300 font-bold px-4 py-2 bg-neutral-100 align-middle"
+                >
+                  Previsto
+                </td>
+                <td class="border border-neutral-300 font-semibold px-4 py-2">
+                  <%= matrix.classes[0] %>
+                </td>
+                <% matrix.matrix[0].forEach(count => { %>
+                <td class="border border-neutral-300 px-4 py-2">
+                  <%= count %>
+                </td>
+                <% }); %>
+              </tr>
+              <% for(let i = 1; i < matrix.classes.length; i++) { %>
+              <tr>
+                <td class="border border-neutral-300 font-semibold px-4 py-2">
+                  <%= matrix.classes[i] %>
+                </td>
+                <% matrix.matrix[i].forEach(count => { %>
+                <td class="border border-neutral-300 px-4 py-2">
+                  <%= count %>
+                </td>
+                <% }); %>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
 
-		<br />
+        <h2 class="text-lg font-medium text-neutral-800">Métricas</h2>
 
-		<div id="links">
-			<a href="/train">2. Treinar Modelo</a><br />
-			<a href="/classifyDocument">3. Classificar Novo Documento</a><br />
-		</div>
-	</body>
+        <div class="space-y-4">
+          <% matrix.classes.forEach(cls => { %>
+          <div class="bg-neutral-50 p-4 rounded-md border border-neutral-200">
+            <h3 class="font-medium mb-2">
+              Classe
+              <strong
+                class="<%= cls === 'positive' ? 'text-green-600' : cls === 'negative' ? 'text-red-600' : 'text-neutral-700' %>"
+              >
+                <%= cls %>
+              </strong>
+            </h3>
+
+            <p>
+              <strong>Precisão:</strong> <%= (precisions[cls] * 100).toFixed(2)
+              %>%
+            </p>
+            <p>
+              <strong>Recall:</strong> <%= (recalls[cls] * 100).toFixed(2) %>%
+            </p>
+            <p>
+              <strong>F1-Score:</strong> <%= (f1scores[cls] * 100).toFixed(2)
+              %>%
+            </p>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+      <% } %>
+
+      <div class="pt-6 border-t flex flex-col border-neutral-200 space-y-2 text-center">
+        <a
+          href="/train"
+          class="inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium rounded-md border text-neutral-950"
+        >
+          2. Treinar Modelo
+        </a>
+        <a
+          href="/classifyDocument"
+          class="inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium rounded-md border text-neutral-950"
+        >
+          3. Classificar Novo Documento
+        </a>
+      </div>
+    </div>
+  </body>
 </html>

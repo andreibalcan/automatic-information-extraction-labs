@@ -1,29 +1,47 @@
 <!-- Lab 6 ex 2 -->
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8" />
-		<title>Vetores de <%= label %></title>
-	</head>
-	<body>
-		<h1>Vetores da classe: <%= label %></h1>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vetores de <%= label %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/output.css" />
+  </head>
+  <body class="bg-white text-foreground min-h-screen px-4 py-12">
+    <div class="max-w-4xl mx-auto space-y-8">
+      <h1
+        class="text-2xl font-semibold tracking-tight text-center text-neutral-950"
+      >
+        Vetores da classe: <%= label %>
+      </h1>
 
-		<table border="1">
-			<tr>
-				<th>Termo</th>
-				<th>TF-IDF</th>
-				<th>N</th>
-			</tr>
-			<% vectors.forEach(term => { %>
-			<tr>
-				<td>
-					<%= Array.isArray(term.name) ? term.name.join(" ") :
-					term.name %>
-				</td>
-				<td><%= term.tfidf.toFixed(6) %></td>
-				<td><%= term.n %></td>
-			</tr>
-			<% }) %>
-		</table>
-	</body>
+      <div class="overflow-x-auto">
+        <table
+          class="min-w-full text-sm text-center border border-neutral-300 rounded-md"
+        >
+          <thead class="bg-neutral-100 text-neutral-700">
+            <tr>
+              <th class="border border-neutral-300 px-4 py-2">Termo</th>
+              <th class="border border-neutral-300 px-4 py-2">TF-IDF</th>
+              <th class="border border-neutral-300 px-4 py-2">N</th>
+            </tr>
+          </thead>
+          <tbody class="text-neutral-800">
+            <% vectors.forEach(term => { %>
+            <tr class="hover:bg-neutral-50">
+              <td class="border border-neutral-300 px-4 py-2">
+                <%= Array.isArray(term.name) ? term.name.join(" ") : term.name
+                %>
+              </td>
+              <td class="border border-neutral-300 px-4 py-2">
+                <%= term.tfidf.toFixed(6) %>
+              </td>
+              <td class="border border-neutral-300 px-4 py-2"><%= term.n %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
 </html>
